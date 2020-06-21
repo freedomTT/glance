@@ -1,0 +1,48 @@
+{
+  "name": "glance",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "dependencies": {
+    "egg": "^2.26.1",
+    "egg-mysql": "^3.0.0",
+    "egg-scripts": "^2.11.0",
+    "egg-validate": "^2.0.2"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "eslint": "^5.13.0",
+    "eslint-config-egg": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/egg-scripts start --daemon --title=egg-server-glance",
+    "stop": "./node_modules/.bin/egg-scripts stop --title=egg-server-glance",
+    "dev": "./node_modules/.bin/egg-bin dev",
+    "debug": "./node_modules/.bin/egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "./node_modules/.bin/egg-bin test",
+    "cov": "./node_modules/.bin/egg-bin cov",
+    "lint": "./node_modules/.bin/eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "./node_modules/.bin/autod"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "768851314@qq.com",
+  "license": "MIT"
+}
