@@ -1,8 +1,8 @@
 {
   "name": "glance",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "glance",
+  "productName": "glance",
   "author": "768851314@qq.com <v768851314>",
   "private": true,
   "scripts": {
