@@ -71,7 +71,7 @@ class NewsService extends Service {
     const headers = {
       Host: 's.weibo.com',
       Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-      'Accept-Encoding': 'gzip, deflate, br',
+      // 'Accept-Encoding': 'gzip, deflate, br',
       'Accept-Language': 'zh-CN,zh;q=0.9',
       Connection: 'keep-alive',
       Referer: 'https://weibo.com/',
@@ -90,9 +90,11 @@ class NewsService extends Service {
             message: '获取数据失败',
           });
         } else {
-          const html = iconv.decode(body, 'gb2312');
+          const html = iconv.decode(body, 'UTF-8');
           const list = [];
           const $ = cheerio.load(html.toString());
+
+          console.log(html)
           // 获取指定元素
           const item = $('table tbody tr');
           // 循环得到元素的跳转地址和名称

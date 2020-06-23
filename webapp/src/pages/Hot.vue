@@ -20,18 +20,19 @@
     </div>
     <div class="col" style="height: 100%;overflow: auto;position: relative">
       <template>
-        <img v-show="!loading && dataList.length === 0" src="../assets/null.png" style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
+        <img v-show="!loading && dataList.length === 0" src="../assets/null.png"
+             style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
         <q-list v-if="loading">
           <q-item v-for="(i,index) in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="'s'+index + i">
             <q-item-section avatar>
-              <q-skeleton type="QAvatar" />
+              <q-skeleton type="QAvatar"/>
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                <q-skeleton type="text" />
+                <q-skeleton type="text"/>
               </q-item-label>
               <q-item-label caption>
-                <q-skeleton type="text" width="65%" />
+                <q-skeleton type="text" width="65%"/>
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -61,7 +62,9 @@ export default {
   },
   computed: {},
   mounted () {
-    this.loadData()
+    this.loadData({
+      kind: this.tab
+    })
   },
   methods: {
     handleTabChange (val) {
