@@ -7,8 +7,8 @@ const queryRule = {
   kind: 'string',
 };
 
-const refreshRule = {
-  kind: 'string',
+const queryDetailRule = {
+  text: 'string',
 };
 
 class NewsController extends Controller {
@@ -31,22 +31,13 @@ class NewsController extends Controller {
     }
     ctx.status = 200;
   }
-
-  async refresh() {
+  async detail() {
     const { ctx } = this;
-    ctx.validate(refreshRule, ctx.query);
-    if (ctx.query.kind === 'weibo') {
-      const result = await ctx.service.news.refreshWeiboHotSearch();
-      ctx.body = {
-        success: true,
-        result,
-      };
-    } else {
-      ctx.body = {
-        success: false,
-        result: [],
-      };
-    }
+    // 校验 `ctx.request.body` 是否符合我们预期的格式
+    ctx.validate(queryDetailRule, ctx.query);
+    ctx.body = await ctx.service.news.getNewsDetail({
+      text: ctx.query.text,
+    });
     ctx.status = 200;
   }
 }

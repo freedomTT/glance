@@ -10,12 +10,12 @@ class NewsService extends Service {
     const baseUrl = 'http://top.baidu.com/buzz?b=';
     let url = '';
     switch (cg) {
-      case 1: url = baseUrl + '1'; break; // 实时热点  1
-      case 341: url = baseUrl + '341'; break; // 今日热点  341
-      case 42: url = baseUrl + '42'; break; // 七日热点  42
-      case 342: url = baseUrl + '342'; break; // 民生热点  342
-      case 344: url = baseUrl + '344'; break; // 娱乐热点  344
-      case 11: url = baseUrl + '11'; break; // 体育热点  11
+      case '1': url = baseUrl + '1'; break; // 实时热点  1
+      case '341': url = baseUrl + '341'; break; // 今日热点  341
+      case '42': url = baseUrl + '42'; break; // 七日热点  42
+      case '342': url = baseUrl + '342'; break; // 民生热点  342
+      case '344': url = baseUrl + '344'; break; // 娱乐热点  344
+      case '11': url = baseUrl + '11'; break; // 体育热点  11
       default:url = baseUrl + '1';
     }
     const headers = {
@@ -93,8 +93,6 @@ class NewsService extends Service {
           const html = iconv.decode(body, 'UTF-8');
           const list = [];
           const $ = cheerio.load(html.toString());
-
-          console.log(html)
           // 获取指定元素
           const item = $('table tbody tr');
           // 循环得到元素的跳转地址和名称
@@ -108,6 +106,68 @@ class NewsService extends Service {
                 obj.title = title;
                 obj.hot = hot;
                 obj.icon = icon;
+                list.push(obj);
+              }
+            }
+          });
+          resolve({
+            success: true,
+            message: '查询成功',
+            result: list,
+          });
+        }
+      });
+    });
+    return await getData;
+  }
+  async getNewsDetail(params) {
+    const url = 'https://s.weibo.com/weibo?q=' + encodeURI(params.text) + '&Refer=index';
+    const headers = {
+      Host: 's.weibo.com',
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+      'Accept-Language': 'zh-CN,zh;q=0.9',
+      Connection: 'keep-alive',
+      Referer: 'https://weibo.com/',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36',
+    };
+    const getData = new Promise(resolve => {
+      request({
+        url,
+        headers,
+        method: 'get',
+        encoding: null,
+      }, (err, res, body) => {
+        if (err) {
+          resolve({
+            success: false,
+            message: '获取数据失败',
+            result: err,
+          });
+        } else {
+          const html = iconv.decode(body, 'UTF-8');
+          const list = [];
+          const $ = cheerio.load(html.toString());
+          // 获取指定元素
+          const item = $('.card-wrap');
+          // 循环得到元素的跳转地址和名称
+          item.map((i, index) => {
+            if (i > 5) {
+              const obj = {};
+              const name = $(index).find('.name').text();
+              const avator = $(index).find('.avator img').attr('src');
+              const content = $(index).find('.txt').text();
+              const imgsEle = $(index).find('.m3 img');
+              const from = $(index).find('.from a').text();
+              const imgs = [];
+              imgsEle.map((imgIndex, img) => {
+                imgs.push($(img).attr('src'));
+              });
+              if (name) {
+                obj.name = name;
+                obj.avator = avator;
+                obj.content = content;
+                obj.imgs = imgs;
+                obj.from = from;
                 list.push(obj);
               }
             }

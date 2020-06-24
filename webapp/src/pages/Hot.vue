@@ -19,14 +19,11 @@
       </template>
     </div>
     <div class="col" style="height: 100%;overflow: auto;position: relative">
-      <template>
-        <img v-show="!loading && dataList.length === 0" src="../assets/null.png"
-             style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
-        <q-list v-if="loading">
+      <img v-show="!loading && dataList.length === 0" src="../assets/null.png"
+           style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
+      <div v-if="loading" style="position: absolute;width: 100%;height: 100%;overflow: hidden">
+        <q-list>
           <q-item v-for="(i,index) in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="'s'+index + i">
-            <q-item-section avatar>
-              <q-skeleton type="QAvatar"/>
-            </q-item-section>
             <q-item-section>
               <q-item-label>
                 <q-skeleton type="text"/>
@@ -37,15 +34,26 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <q-list v-else>
-          <q-item v-for="(item,index) in dataList" :key="'d'+index" style="min-height:30px;">
-            <q-item-section>
-              <q-item-label>{{item.title}}</q-item-label>
-            </q-item-section>
-            <q-item-section side>{{item.hot}}</q-item-section>
+      </div>
+      <div v-else style="padding-top: 10px;">
+        <q-list>
+          <q-item v-for="(item,index) in dataList" :key="'d'+index" style="min-height:30px;padding: 8px 10px;cursor: pointer;">
+            <q-card class="shadow-1" style="width: 100%;" @click="handleGoDetailPage(item)">
+              <q-card-section>
+                <div>
+                  <span class="text-primary">{{item.title}}</span>
+                  <div style="position:absolute;right: 3px;top:0px;font-size: 15px;">
+                    <q-icon class="text-red" name="whatshot" v-show="item.icon === '沸'"/>
+                    <q-icon class="text-grey" name="sentiment_dissatisfied" v-show="item.icon === '荐'"/>
+                    <span style="font-size: 12px;" class="text-pink" v-show="item.icon === '新'">New</span>
+                  </div>
+                  <span class="text-grey-4" style="position:absolute;right: 5px;bottom:2px;font-size: 12px;">{{parseInt(item.hot/1000)||0}}k</span>
+                </div>
+              </q-card-section>
+            </q-card>
           </q-item>
         </q-list>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -136,6 +144,14 @@ export default {
           })
           this.loading = false
         })
+    },
+    handleGoDetailPage (item) {
+      this.$router.push({
+        name: 'detail',
+        params: {
+          text: item.title
+        }
+      })
     }
   }
 }

@@ -80,9 +80,11 @@ module.exports = function (/* ctx */) {
       proxy: {
         // 将所有以/api开头的请求代理到jsonplaceholder
         '/api': {
+          // target: 'http://120.78.84.46',
           target: 'http://127.0.0.1:7001',
           changeOrigin: true,
           pathRewrite: {
+            // '^/api': 'http://120.78.84.46/api'
             '^/api': 'http://127.0.0.1:7001/api'
           }
         }
@@ -111,7 +113,10 @@ module.exports = function (/* ctx */) {
         'QTabPanels',
         'QTabPanel',
         'QIcon',
-        'QSkeleton'
+        'QSkeleton',
+        'QCard',
+        'QCardSection',
+        'QCardActions'
       ]
     },
 
@@ -130,7 +135,7 @@ module.exports = function (/* ctx */) {
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'glance',
-        short_name: 'glance',
+        short_name: '撇一瞥',
         description: 'glance',
         display: 'standalone',
         orientation: 'portrait',
