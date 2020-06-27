@@ -10,13 +10,26 @@ class NewsService extends Service {
     const baseUrl = 'http://top.baidu.com/buzz?b=';
     let url = '';
     switch (cg) {
-      case '1': url = baseUrl + '1'; break; // 实时热点  1
-      case '341': url = baseUrl + '341'; break; // 今日热点  341
-      case '42': url = baseUrl + '42'; break; // 七日热点  42
-      case '342': url = baseUrl + '342'; break; // 民生热点  342
-      case '344': url = baseUrl + '344'; break; // 娱乐热点  344
-      case '11': url = baseUrl + '11'; break; // 体育热点  11
-      default:url = baseUrl + '1';
+      case '1':
+        url = baseUrl + '1';
+        break; // 实时热点  1
+      case '341':
+        url = baseUrl + '341';
+        break; // 今日热点  341
+      case '42':
+        url = baseUrl + '42';
+        break; // 七日热点  42
+      case '342':
+        url = baseUrl + '342';
+        break; // 民生热点  342
+      case '344':
+        url = baseUrl + '344';
+        break; // 娱乐热点  344
+      case '11':
+        url = baseUrl + '11';
+        break; // 体育热点  11
+      default:
+        url = baseUrl + '1';
     }
     const headers = {
       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
@@ -120,8 +133,9 @@ class NewsService extends Service {
     });
     return await getData;
   }
+
   async getNewsDetail(params) {
-    const url = 'https://s.weibo.com/weibo?q=' + encodeURI(params.text) + '&Refer=index';
+    const url = 'https://s.weibo.com/weibo?q=' + encodeURI(params.text) + '&Refer=index&display=0&retcode=6102';
     const headers = {
       Host: 's.weibo.com',
       Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -151,7 +165,7 @@ class NewsService extends Service {
           const item = $('.card-wrap');
           // 循环得到元素的跳转地址和名称
           item.map((i, index) => {
-            if (i > 5) {
+            if (i < 50) {
               const obj = {};
               const name = $(index).find('.name').text();
               const avator = $(index).find('.avator img').attr('src');
@@ -160,9 +174,9 @@ class NewsService extends Service {
               const from = $(index).find('.from a').text();
               const imgs = [];
               imgsEle.map((imgIndex, img) => {
-                imgs.push($(img).attr('src'));
+                imgs.push('https:' + $(img).attr('src'));
               });
-              if (name) {
+              if (name && (content || imgs.length)) {
                 obj.name = name;
                 obj.avator = avator;
                 obj.content = content;
@@ -176,6 +190,7 @@ class NewsService extends Service {
             success: true,
             message: '查询成功',
             result: list,
+            result2: html,
           });
         }
       });

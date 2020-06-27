@@ -1,11 +1,11 @@
 <template>
   <div class="fit row wrap justify-start items-start content-start" style="position:absolute;height: 100%;">
-    <div style="width: 80px;height:100%;border-right: 1px solid #eeeeee;">
+    <div style="width: 80px;height:100%;">
       <template>
         <q-tabs
           v-model="tab"
           vertical
-          class="text-primary"
+          class="bg-grey-10 text-white"
           @input="handleTabChange"
         >
           <q-tab name="weibo" icon="visibility" label="热搜"/>
@@ -18,7 +18,7 @@
         </q-tabs>
       </template>
     </div>
-    <div class="col" style="height: 100%;overflow: auto;position: relative">
+    <div class="col bg-grey-9" style="height: 100%;overflow: auto;position: relative">
       <img v-show="!loading && dataList.length === 0" src="../assets/null.png"
            style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
       <div v-if="loading" style="position: absolute;width: 100%;height: 100%;overflow: hidden">
@@ -37,17 +37,18 @@
       </div>
       <div v-else style="padding-top: 10px;">
         <q-list>
-          <q-item v-for="(item,index) in dataList" :key="'d'+index" style="min-height:30px;padding: 8px 10px;cursor: pointer;">
-            <q-card class="shadow-1" style="width: 100%;" @click="handleGoDetailPage(item)">
+          <q-item v-for="(item,index) in dataList" :key="'d'+index"
+                  style="min-height:20px;padding: 5px 10px;cursor: pointer;">
+            <q-card class="shadow-1 bg-grey-9 text-grey-6" style="width: 100%;" @click="handleGoDetailPage(item)">
               <q-card-section>
                 <div>
-                  <span class="text-primary">{{item.title}}</span>
-                  <div style="position:absolute;right: 3px;top:0px;font-size: 15px;">
-                    <q-icon class="text-red" name="whatshot" v-show="item.icon === '沸'"/>
+                  <span>{{item.title}}</span>
+                  <div style="position:absolute;right: 3px;top:0;font-size: 15px;">
+                    <q-icon class="text-pink-8" name="whatshot" v-show="item.icon === '沸'"/>
+                    <q-icon class="text-pink-8" name="fiber_new" v-show="item.icon === '新'"/>
                     <q-icon class="text-grey" name="sentiment_dissatisfied" v-show="item.icon === '荐'"/>
-                    <span style="font-size: 12px;" class="text-pink" v-show="item.icon === '新'">New</span>
                   </div>
-                  <span class="text-grey-4" style="position:absolute;right: 5px;bottom:2px;font-size: 12px;">{{parseInt(item.hot/1000)||0}}k</span>
+                  <span class="text-grey-6" style="position:absolute;right: 5px;bottom:2px;font-size: 12px;">{{parseInt(item.hot/1000)||0}}k</span>
                 </div>
               </q-card-section>
             </q-card>

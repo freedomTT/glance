@@ -1,13 +1,13 @@
 <template>
   <div>
-    <q-header elevated class="bg-blue-grey-10">
+    <q-header elevated class="bg-grey-9" style="position: fixed;top: 0;left: 0;">
       <q-toolbar>
         <q-btn flat @click="handleGoBack" round dense icon="backspace"/>
         <q-toolbar-title>{{$route.params.text}}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <div class="fit row wrap justify-start items-start content-start"
-         style="position:absolute;height: 100%;padding: 20px;">
+         style="position:absolute;height: 100%;padding: 20px 10px;">
       <div v-if="loading" style="position: absolute;left:0;top:0;width: 100%;height: 100%;overflow: hidden">
         <q-list>
           <q-item v-for="(i,index) in [1,2,3,4,5]" :key="'s'+index + i">
@@ -62,14 +62,15 @@
           <q-card-section v-show="item.imgs.length">
             <div class="q-gutter-md row items-start">
               <q-img
-                v-for="img in item.imgs"
+                v-for="(img,imgIndex) in item.imgs"
                 :key="img"
                 transition="fade"
                 :src="img"
-                style="width: 150px"
+                style="width: 50px"
                 ratio="1"
                 spinner-color="white"
                 class="rounded-borders"
+                @click="handleShowImgs(item.imgs,imgIndex)"
               >
               </q-img>
             </div>
@@ -77,16 +78,37 @@
         </q-card>
       </div>
     </div>
+    <viewer :options="options" :images="imagesList"
+            @inited="inited"
+            class="viewer" ref="viewer"
+    >
+      <template slot-scope="scope">
+        <img v-for="src in scope.images" :src="src" :key="src">
+      </template>
+    </viewer>
   </div>
 </template>
 
 <script>
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer/src/component.vue'
+
 export default {
   name: 'PageDetail',
+  components: {
+    Viewer
+  },
   data () {
     return {
       loading: true,
-      dataList: []
+      dataList: [],
+      imagesList: [],
+      options: {
+        zIndex: 10000000,
+        title: false,
+        toolbar: false,
+        button: false
+      }
     }
   },
   computed: {},
@@ -99,6 +121,18 @@ export default {
     }
   },
   methods: {
+    inited (viewer) {
+      this.viewer = viewer
+    },
+    handleShowImgs (imgs, index) {
+      const list = []
+      imgs.map((url) => {
+        const s = url.split('/')
+        list.push('https://ww2.sinaimg.cn/bmiddle/' + s[s.length - 1])
+      })
+      this.imagesList = list
+      this.viewer.show()
+    },
     handleGoBack () {
       this.$router.back()
     },
@@ -138,5 +172,12 @@ export default {
   .my-card {
     width: 100%;
     margin-bottom: 20px;
+  }
+
+  .viewer {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 </style>

@@ -134,13 +134,13 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'glance',
-        short_name: '撇一瞥',
+        name: 'qio一眼',
+        short_name: 'qio一眼',
         description: 'glance',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#424242',
+        theme_color: 'black',
         icons: [
           {
             src: 'icons/icon-128x128.png',
