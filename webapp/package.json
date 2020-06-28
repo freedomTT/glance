@@ -16,6 +16,7 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "img-vuer": "^0.19.2",
     "quasar": "^1.0.0",
     "v-viewer": "^1.5.1"
   },

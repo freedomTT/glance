@@ -80,12 +80,12 @@ module.exports = function (/* ctx */) {
       proxy: {
         // 将所有以/api开头的请求代理到jsonplaceholder
         '/api': {
-          // target: 'http://120.78.84.46',
-          target: 'http://127.0.0.1:7001',
+          target: 'http://120.78.84.46',
+          // target: 'http://127.0.0.1:7001',
           changeOrigin: true,
           pathRewrite: {
-            // '^/api': 'http://120.78.84.46/api'
-            '^/api': 'http://127.0.0.1:7001/api'
+            '^/api': 'http://120.78.84.46/api'
+            // '^/api': 'http://127.0.0.1:7001/api'
           }
         }
       }
@@ -134,9 +134,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'qio一眼',
-        short_name: 'qio一眼',
-        description: 'glance',
+        name: 'qio',
+        short_name: 'qio',
+        description: 'qio',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#424242',

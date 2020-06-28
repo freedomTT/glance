@@ -1,13 +1,13 @@
 <template>
   <div>
-    <q-header elevated class="bg-grey-9" style="position: fixed;top: 0;left: 0;">
+    <q-header elevated style="position: fixed;top: 0;left: 0;">
       <q-toolbar>
         <q-btn flat @click="handleGoBack" round dense icon="backspace"/>
         <q-toolbar-title>{{$route.params.text}}</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <div class="fit row wrap justify-start items-start content-start"
-         style="position:absolute;height: 100%;padding: 20px 10px;">
+         style="position:absolute;height: 100%;padding: 10px 5px;">
       <div v-if="loading" style="position: absolute;left:0;top:0;width: 100%;height: 100%;overflow: hidden">
         <q-list>
           <q-item v-for="(i,index) in [1,2,3,4,5]" :key="'s'+index + i">
@@ -39,7 +39,7 @@
         </q-list>
       </div>
       <div v-else>
-        <q-card class="my-card" bordered v-for="(item,i) in dataList" :key="item.name + i">
+        <q-card class="my-card shadow-0" bordered v-for="(item,i) in dataList" :key="item.name + i">
           <q-item>
             <q-item-section avatar>
               <q-avatar>
@@ -55,22 +55,21 @@
             </q-item-section>
           </q-item>
           <q-separator/>
-          <q-card-section>
-            {{item.content}}
+          <q-card-section style="font-size: 16px;">
+            {{item.content.replace('收起全文d','')}}
           </q-card-section>
           <q-separator v-show="item.imgs.length"/>
           <q-card-section v-show="item.imgs.length">
             <div class="q-gutter-md row items-start">
               <q-img
-                v-for="(img,imgIndex) in item.imgs"
+                v-for="(img) in item.imgs"
                 :key="img"
                 transition="fade"
                 :src="img"
-                style="width: 50px"
+                style="width: 28.5%"
                 ratio="1"
                 spinner-color="white"
                 class="rounded-borders"
-                @click="handleShowImgs(item.imgs,imgIndex)"
               >
               </q-img>
             </div>
@@ -78,26 +77,13 @@
         </q-card>
       </div>
     </div>
-    <viewer :options="options" :images="imagesList"
-            @inited="inited"
-            class="viewer" ref="viewer"
-    >
-      <template slot-scope="scope">
-        <img v-for="src in scope.images" :src="src" :key="src">
-      </template>
-    </viewer>
   </div>
 </template>
 
 <script>
-import 'viewerjs/dist/viewer.css'
-import Viewer from 'v-viewer/src/component.vue'
-
 export default {
   name: 'PageDetail',
-  components: {
-    Viewer
-  },
+  components: {},
   data () {
     return {
       loading: true,
@@ -121,18 +107,6 @@ export default {
     }
   },
   methods: {
-    inited (viewer) {
-      this.viewer = viewer
-    },
-    handleShowImgs (imgs, index) {
-      const list = []
-      imgs.map((url) => {
-        const s = url.split('/')
-        list.push('https://ww2.sinaimg.cn/bmiddle/' + s[s.length - 1])
-      })
-      this.imagesList = list
-      this.viewer.show()
-    },
     handleGoBack () {
       this.$router.back()
     },
@@ -171,13 +145,6 @@ export default {
 <style>
   .my-card {
     width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .viewer {
-    visibility: hidden;
-    width: 0;
-    height: 0;
-    overflow: hidden;
+    margin-bottom: 10px;
   }
 </style>

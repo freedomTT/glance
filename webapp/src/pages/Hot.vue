@@ -5,7 +5,7 @@
         <q-tabs
           v-model="tab"
           vertical
-          class="bg-grey-10 text-white"
+          class="bg-blue-8 text-white"
           @input="handleTabChange"
         >
           <q-tab name="weibo" icon="visibility" label="热搜"/>
@@ -18,7 +18,7 @@
         </q-tabs>
       </template>
     </div>
-    <div class="col bg-grey-9" style="height: 100%;overflow: auto;position: relative">
+    <div class="col" style="height: 100%;overflow: auto;position: relative">
       <img v-show="!loading && dataList.length === 0" src="../assets/null.png"
            style="position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0" alt="">
       <div v-if="loading" style="position: absolute;width: 100%;height: 100%;overflow: hidden">
@@ -39,16 +39,16 @@
         <q-list>
           <q-item v-for="(item,index) in dataList" :key="'d'+index"
                   style="min-height:20px;padding: 5px 10px;cursor: pointer;">
-            <q-card class="shadow-1 bg-grey-9 text-grey-6" style="width: 100%;" @click="handleGoDetailPage(item)">
+            <q-card class="shadow-0 bg-blue-2 text-blue-8" style="width: 100%;" @click="handleGoDetailPage(item)">
               <q-card-section>
                 <div>
-                  <span>{{item.title}}</span>
+                  <span style="font-size: 16px;font-weight: bold">{{item.title}}</span>
                   <div style="position:absolute;right: 3px;top:0;font-size: 15px;">
-                    <q-icon class="text-pink-8" name="whatshot" v-show="item.icon === '沸'"/>
-                    <q-icon class="text-pink-8" name="fiber_new" v-show="item.icon === '新'"/>
+                    <q-icon class="text-red-4" name="whatshot" v-show="item.icon === '沸'"/>
+                    <q-icon class="text-red-4" name="fiber_new" v-show="item.icon === '新'"/>
                     <q-icon class="text-grey" name="sentiment_dissatisfied" v-show="item.icon === '荐'"/>
                   </div>
-                  <span class="text-grey-6" style="position:absolute;right: 5px;bottom:2px;font-size: 12px;">{{parseInt(item.hot/1000)||0}}k</span>
+                  <span class="text-blue-1" style="position:absolute;right: 5px;bottom:2px;font-size: 12px;">{{parseInt(item.hot/1000)||0}}k</span>
                 </div>
               </q-card-section>
             </q-card>
